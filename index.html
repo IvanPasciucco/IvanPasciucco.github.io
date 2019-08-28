@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TravelAssist</title>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+           <link href="https://maxcdn.bootstrapcdn.com/bootsrap/3.3.7/css/bootsrap.min.css" rel="stylesheeet" />
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        
+    </head>
+
+    <body>
+
+      <form>
+        <div class="form-group">
+      <h1>Formulario </h1>
+       
+    <fieldset>
+      <legend>FORMULARIO DE INSCRIPCION </legend> 
+               <p> Nombre:  <input type="text" name="nombre" id="nombre" class="form-control"></p>
+               <p> Apellido:  <input type="text" name="apellido" id="apellido"   ></p>
+                <p> Edad:  <input type="number" name="edad" id="edad" class="form-control"> </p>
+              	 
+       
+              <input type="button" id="adicionar" onclick="addHtmlTableRow()" class="btn btn-success" > 
+              </fieldset>
+            </div>
+        </form>
+        <input type="button" onclick="tableToExcel('mytable', 'tabla de ivan')" value="Export to Excel"> 
+
+       <br>
+  <h1>RESULTADOS</h1>
+
+      <table  id="mytable" class="table ">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Edad</th>
+                        
+                    </tr>
+                </table>
+                <p id="alerta">
+            </div>
+
+
+
+  <script>
+function addHtmlTableRow(){
+  
+  var nombre = document.getElementById("nombre").value;
+  var apellido = document.getElementById("apellido").value;
+  var edad = document.getElementById("edad").value;
+  
+
+
+  var table = document.getElementById("mytable");
+  var row = table.insertRow(-1);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  var cell3 = row.insertCell(2);
+  var cell4 = row.insertCell(3);
+ 
+  cell1.innerHTML = nombre;
+  cell2.innerHTML = apellido;
+  cell3.innerHTML = edad;
+ 
+  cell4.innerHTML = '<button type="button" name="remove" onclick="borrar(this)" class="btn btn-danger btn_remove">Quitar</button>';
+}
+
+function borrar(r) {
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("mytable").deleteRow(i);
+}
+var tableToExcel = (function() {
+     var uri = 'data:application/vnd.ms-excel;base64,',
+       template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
+       base64 = function(s) {
+         return window.btoa(unescape(encodeURIComponent(s)))
+       },
+       format = function(s, c) {
+         return s.replace(/{(\w+)}/g, function(m, p) {
+           return c[p];
+         })
+       }
+     return function(table, name) {
+     	var size = document.getElementById(table).rows.length;
+     	if (size >1){
+          if (!table.nodeType) table = document.getElementById(table)
+       var ctx = {
+         worksheet: name || 'Worksheet',
+         table: table.innerHTML
+       }
+       window.location.href = uri + base64(format(template, ctx))
+     }else{
+     document.getElementById("alert").innerHTML ='<div class="alert alert-danger" role="alert">debe ingresar al menos un elemento </div>'
+     }
+ }
+   })()
+
+      </script>
+      
+    </body>
+</html>
